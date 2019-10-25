@@ -1,6 +1,7 @@
 #include "Field.h"
 #include <Bengine/Camera2D.h>
 #include <Bengine/DebugRenderer.h>
+#include <glm/gtx/rotate_vector.hpp>
 
 Field::Field() :
 	m_gridCellSize(10)
@@ -40,7 +41,15 @@ void Field::draw(Bengine::SpriteBatch & spriteBatch, Bengine::DebugRenderer & de
 			}
 
 			static const Bengine::ColorRGBA8 WHITE(255, 255, 255, 255);
-			debugRenderer.drawLine(pos, pos + fieldStrength, WHITE);
+			drawArrow(debugRenderer, pos, pos + fieldStrength, WHITE, camera);
 		}
 	}
+}
+
+void Field::drawArrow(Bengine::DebugRenderer & debugRenderer, const glm::vec2 & a, const glm::vec2 & b, const Bengine::ColorRGBA8 & color, Bengine::Camera2D& camera)
+{
+	debugRenderer.drawLine(a, b, color);
+	glm::vec2 arrowVec = glm::normalize(b - a) * 5.0f * camera.getScale();
+	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, 120.0f), color);
+	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, -120.0f), color);
 }
