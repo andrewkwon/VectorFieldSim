@@ -23,6 +23,6 @@ public:
 
 	float m_gridCellSize; //Grid cell size in pixels
 	std::vector<Charge> m_charges;
-	real forceConstant = 10; // Don't worry about this
+	real forceConstant = 500; // Don't worry about this
 };
 

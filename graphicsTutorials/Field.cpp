@@ -49,7 +49,8 @@ void Field::draw(Bengine::SpriteBatch & spriteBatch, Bengine::DebugRenderer & de
 void Field::drawArrow(Bengine::DebugRenderer & debugRenderer, const glm::vec2 & a, const glm::vec2 & b, const Bengine::ColorRGBA8 & color, Bengine::Camera2D& camera)
 {
 	debugRenderer.drawLine(a, b, color);
-	glm::vec2 arrowVec = glm::normalize(b - a) * 5.0f * camera.getScale();
-	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, 120.0f), color);
-	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, -120.0f), color);
+	glm::vec2 arrowVec = glm::normalize(b - a) * 1.0f;
+	static const float ARROW_ANGLE = 145.0f;
+	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, ARROW_ANGLE), color);
+	debugRenderer.drawLine(b, b + glm::rotate(arrowVec, -ARROW_ANGLE), color);
 }

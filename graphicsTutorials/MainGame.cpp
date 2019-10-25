@@ -95,7 +95,7 @@ void MainGame::gameLoop() {
 void MainGame::processInput() {
     SDL_Event evnt;
 
-    const float CAMERA_SPEED = 2.0f;
+    const float CAMERA_SPEED = 7.0f;
     const float SCALE_SPEED = 0.1f;
 
 	_inputManager.update();
@@ -125,16 +125,16 @@ void MainGame::processInput() {
     }
 
     if (_inputManager.isKeyDown(SDLK_w)) {
-        _camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
+        _camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED) / _camera.getScale());
     }
     if (_inputManager.isKeyDown(SDLK_s)) {
-        _camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
+        _camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED) / _camera.getScale());
     }
     if (_inputManager.isKeyDown(SDLK_a)) {
-        _camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f));
+        _camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f) / _camera.getScale());
     }
     if (_inputManager.isKeyDown(SDLK_d)) {
-        _camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
+        _camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f) / _camera.getScale());
     }
     if (_inputManager.isKeyDown(SDLK_q)) {
         _camera.setScale(_camera.getScale() + _camera.getScale()*SCALE_SPEED);
@@ -196,7 +196,7 @@ void MainGame::drawGame() {
 
     _spriteBatch.renderBatch();
 	m_debugRenderer.end();
-	m_debugRenderer.render(cameraMatrix, 3.0f);
+	m_debugRenderer.render(cameraMatrix, 2.0f / _camera.getScale());
 
     //unbind the texture
     glBindTexture(GL_TEXTURE_2D, 0);
