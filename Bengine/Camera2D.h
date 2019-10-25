@@ -34,6 +34,7 @@ namespace Bengine {
         const glm::mat4& getCameraMatrix() const { return _cameraMatrix; }
         float getAspectRatio() const { return (float)_screenWidth / (float)_screenHeight; }
 		const glm::vec2 getScreenSize() const { return{ _screenWidth, _screenHeight }; }
+		const glm::vec2 getScaledScreenSize() const { return glm::vec2{ _screenWidth, _screenHeight } / _scale; }
 
     private:
         int _screenWidth, _screenHeight;

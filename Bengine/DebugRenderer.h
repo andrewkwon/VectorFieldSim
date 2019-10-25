@@ -24,6 +24,8 @@ namespace Bengine {
             Bengine::ColorRGBA8 color;
         };
     private:
+		void growVerts(size_t newSize); //Resizes the m_verts array only if newSize is greater than its current size
+
         Bengine::GLSLProgram m_program;
         std::vector<DebugVertex> m_verts;
         std::vector<GLuint> m_indices;

@@ -107,7 +107,7 @@ glm::vec2 rotatePoint(const glm::vec2& pos, float angle) {
 
 void Bengine::DebugRenderer::drawLine(const glm::vec2& a, const glm::vec2& b, const ColorRGBA8& color) {
     int i = m_verts.size();
-    m_verts.resize(m_verts.size() + 2);
+    growVerts(m_verts.size() + 2);
 
     m_verts[i].position = a;
     m_verts[i].color = color;
@@ -121,7 +121,7 @@ void Bengine::DebugRenderer::drawLine(const glm::vec2& a, const glm::vec2& b, co
 void Bengine::DebugRenderer::drawBox(const glm::vec4& destRect, const ColorRGBA8& color, float angle) {
     
     int i = m_verts.size();
-    m_verts.resize(m_verts.size() + 4);
+    growVerts(m_verts.size() + 4);
     
     glm::vec2 halfDims(destRect.z / 2.0f, destRect.w / 2.0f);
 
@@ -162,7 +162,7 @@ void Bengine::DebugRenderer::drawCircle(const glm::vec2& center, const ColorRGBA
     static const int NUM_VERTS = 100;
     // Set up vertices
     int start = m_verts.size();
-    m_verts.resize(m_verts.size() + NUM_VERTS);
+    growVerts(m_verts.size() + NUM_VERTS);
     for (int i = 0; i < NUM_VERTS; i++) {
         float angle = ((float)i / NUM_VERTS) * PI * 2.0f;
         m_verts[start + i].position.x = cos(angle) * radius + center.x;
@@ -205,4 +205,11 @@ void Bengine::DebugRenderer::dispose() {
         glDeleteBuffers(1, &m_ibo);
     }
     m_program.dispose();
+}
+
+void Bengine::DebugRenderer::growVerts(size_t newSize)
+{
+	if (newSize > m_verts.size()) {
+		m_verts.resize(newSize);
+	}
 }
