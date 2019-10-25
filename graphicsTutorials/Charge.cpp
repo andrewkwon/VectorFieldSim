@@ -24,7 +24,7 @@ void Charge::draw(Bengine::SpriteBatch& spriteBatch, Bengine::DebugRenderer& deb
 
 void Charge::setStrength(real strength)
 {
-	real radius = log(strength + 1);
+	real radius = log(abs(strength) + 1);
 	m_posAndSize.z = m_posAndSize.w = radius;
 }
 

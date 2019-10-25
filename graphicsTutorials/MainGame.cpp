@@ -143,6 +143,7 @@ void MainGame::processInput() {
         _camera.setScale(_camera.getScale() - _camera.getScale()*SCALE_SPEED);
     }
 
+	static const real CHARGE = 10;
     if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
         glm::vec2 mouseCoords = _inputManager.getMouseCoords();
         mouseCoords = _camera.convertScreenToWorld(mouseCoords);
@@ -150,8 +151,17 @@ void MainGame::processInput() {
         //glm::vec2 direction = mouseCoords - playerPosition;
         //direction = glm::normalize(direction);
 
-		m_field.addCharge(Charge(10, mouseCoords));
+		m_field.addCharge(Charge(CHARGE, mouseCoords));
     }
+	if (_inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = _camera.convertScreenToWorld(mouseCoords);
+
+		//glm::vec2 direction = mouseCoords - playerPosition;
+		//direction = glm::normalize(direction);
+
+		m_field.addCharge(Charge(-CHARGE, mouseCoords));
+	}
 }
 
 //Draws the game using the almighty OpenGL
