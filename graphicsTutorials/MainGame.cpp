@@ -180,7 +180,7 @@ void MainGame::drawGame() {
 
     _spriteBatch.begin();
 
-	m_field.draw(_spriteBatch, m_debugRenderer);
+	m_field.draw(_spriteBatch, m_debugRenderer, _camera);
 
     _spriteBatch.end();
 
