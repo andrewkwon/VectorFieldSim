@@ -18,6 +18,8 @@
 #include "Bullet.h"
 
 #include <vector>
+#include "Field.h"
+#include <Bengine/DebugRenderer.h>
 
 enum class GameState {PLAY, EXIT};
 
@@ -46,6 +48,7 @@ private:
     Bengine::Camera2D _camera;
 
     Bengine::SpriteBatch _spriteBatch;
+	Bengine::DebugRenderer m_debugRenderer;
 
     Bengine::InputManager _inputManager;
     Bengine::FpsLimiter _fpsLimiter;
@@ -55,5 +58,7 @@ private:
     float _maxFPS;
     float _fps;
     float _time;
+
+	Field m_field;
 };
 

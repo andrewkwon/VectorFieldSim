@@ -40,7 +40,10 @@ void MainGame::initSystems() {
     initShaders();
 
     _spriteBatch.init();
+	m_debugRenderer.init();
     _fpsLimiter.init(_maxFPS);
+
+	glClearColor(0, 0, 0, 1);
 }
 
 void MainGame::initShaders() {
@@ -95,6 +98,8 @@ void MainGame::processInput() {
     const float CAMERA_SPEED = 2.0f;
     const float SCALE_SPEED = 0.1f;
 
+	_inputManager.update();
+
     //Will keep looping until there are no more events to process
     while (SDL_PollEvent(&evnt)) {
         switch (evnt.type) {
@@ -132,21 +137,20 @@ void MainGame::processInput() {
         _camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
     }
     if (_inputManager.isKeyDown(SDLK_q)) {
-        _camera.setScale(_camera.getScale() + SCALE_SPEED);
+        _camera.setScale(_camera.getScale() + _camera.getScale()*SCALE_SPEED);
     }
     if (_inputManager.isKeyDown(SDLK_e)) {
-        _camera.setScale(_camera.getScale() - SCALE_SPEED);
+        _camera.setScale(_camera.getScale() - _camera.getScale()*SCALE_SPEED);
     }
 
-    if (_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+    if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
         glm::vec2 mouseCoords = _inputManager.getMouseCoords();
         mouseCoords = _camera.convertScreenToWorld(mouseCoords);
         
-        glm::vec2 playerPosition(0.0f);
-        glm::vec2 direction = mouseCoords - playerPosition;
-        direction = glm::normalize(direction);
+        //glm::vec2 direction = mouseCoords - playerPosition;
+        //direction = glm::normalize(direction);
 
-        _bullets.emplace_back(playerPosition, direction, 5.00f, 1000);
+		m_field.addCharge(Charge(10, mouseCoords));
     }
 }
 
@@ -176,24 +180,13 @@ void MainGame::drawGame() {
 
     _spriteBatch.begin();
 
-    glm::vec4 pos(0.0f, 0.0f, 50.0f, 50.0f);
-    glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-    static Bengine::GLTexture texture = Bengine::ResourceManager::getTexture("Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-    Bengine::ColorRGBA8 color;
-    color.r = 255;
-    color.g = 255;
-    color.b = 255;
-    color.a = 255;
-
-    _spriteBatch.draw(pos, uv, texture.id, 0.0f, color);
-
-    for (size_t i = 0; i < _bullets.size(); i++) {
-        _bullets[i].draw(_spriteBatch);
-    }
+	m_field.draw(_spriteBatch, m_debugRenderer);
 
     _spriteBatch.end();
 
     _spriteBatch.renderBatch();
+	m_debugRenderer.end();
+	m_debugRenderer.render(cameraMatrix, 3.0f);
 
     //unbind the texture
     glBindTexture(GL_TEXTURE_2D, 0);
