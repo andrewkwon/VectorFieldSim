@@ -31,6 +31,16 @@ void Field::draw(Bengine::SpriteBatch & spriteBatch, Bengine::DebugRenderer & de
 			static const GLubyte GRAYSCALE_VALUE = 100;
 			static const Bengine::ColorRGBA8 GRAY(GRAYSCALE_VALUE, GRAYSCALE_VALUE, GRAYSCALE_VALUE, GRAYSCALE_VALUE);
 			debugRenderer.drawBox(glm::vec4(pos.x, pos.y, m_gridCellSize, m_gridCellSize), GRAY, 0.0);
+
+			glm::vec2 fieldStrength;
+			for (size_t i = 0; i < m_charges.size(); i++) {
+				Charge& charge = m_charges[i];
+				glm::vec2 displacement = pos.xy - charge.m_posAndSize.xy;
+				fieldStrength += forceConstant * charge.m_strength * displacement / (pow(glm::length(displacement), 3));
+			}
+
+			static const Bengine::ColorRGBA8 WHITE(255, 255, 255, 255);
+			debugRenderer.drawLine(pos, pos + fieldStrength, WHITE);
 		}
 	}
 }

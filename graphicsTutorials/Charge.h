@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Typedefs.h"
+
+#define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
 //Forward declarations
